@@ -1836,6 +1836,15 @@ class DataRepository @Inject constructor(
                                     selectedEncoding = encoding.selected
                             )
 
+                            if (book.preface != null) {
+                                val pattern = Regex(":ID:\\s*([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12})")
+                                val matchResult = pattern.find(book.preface)
+                                val uuid = matchResult?.groups?.get(1)?.value
+                                if (uuid != null) {
+                                    createRootNote(bookId, uuid)
+                                }
+                            }
+
                             db.book().update(book)
                         }
 
@@ -1855,6 +1864,47 @@ class DataRepository @Inject constructor(
         updateBookIsModified(bookId, false)
 
         return bookId
+    }
+
+    private fun createRootNote(bookId: Long, bookIdProperty: String) {
+        val position = NotePosition(
+            bookId = bookId,
+            lft = 0,
+            rgt = 0,
+            level = 0,
+            parentId = 0,
+            foldedUnderId = 0,
+            isFolded = true,
+            descendantsCount = 0,
+        )
+
+        val note = Note(
+            0,
+            title = "<root_note>",
+            priority = null,
+            state = null,
+            scheduledRangeId = null,
+            deadlineRangeId = null,
+            closedRangeId = null,
+            clockRangeId = null,
+            tags = null,
+            createdAt = null,
+            content = null,
+            contentLineCount = 0,
+            position = position,
+            isPhantom = true,
+        )
+
+        var noteId = db.note().insert(note)
+
+        val noteIdProperty = NoteProperty(
+            name = "id",
+            noteId = noteId,
+            position = 0,
+            value = bookIdProperty,
+        )
+
+        db.noteProperty().insert(noteIdProperty)
     }
 
     private fun getOrgRangeId(range: String?): Long? {

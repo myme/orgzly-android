@@ -61,7 +61,7 @@ class InternalLinksTest : OrgzlyTest() {
                 "book-b",
                 """
                     :PROPERTIES:
-                    dd791937-3fb6-4018-8d5d-b278e0e52c80
+                    :ID: dd791937-3fb6-4018-8d5d-b278e0e52c80
                     :END:
 
                     * Note [b-1]
@@ -142,7 +142,7 @@ class InternalLinksTest : OrgzlyTest() {
     }
 
     @Test
-    @Ignore("Parsing PROPERTIES drawer from book preface is not supported yet")
+//    @Ignore("Parsing PROPERTIES drawer from book preface is not supported yet")
     fun testLinkToBookById() {
         onNoteInBook(7, R.id.item_head_content_view)
             .perform(clickClickableSpan("Link to book-b by id"))

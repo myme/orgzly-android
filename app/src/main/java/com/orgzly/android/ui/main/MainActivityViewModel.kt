@@ -82,16 +82,21 @@ class MainActivityViewModel(private val dataRepository: DataRepository) : Common
                 } else {
                     val noteIdBookId = result.userData as NoteDao.NoteIdBookId
 
-                    when (AppPreferences.linkTarget(App.getAppContext())) {
-                        "note_details" ->
-                            navigationActions.postValue(
-                                MainNavigationAction.OpenNote(noteIdBookId.bookId, noteIdBookId.noteId))
+                    if (noteIdBookId.isPhantom) {
+                        navigationActions.postValue(
+                            MainNavigationAction.OpenBook(noteIdBookId.bookId))
+                    } else {
+                        when (AppPreferences.linkTarget(App.getAppContext())) {
+                            "note_details" ->
+                                navigationActions.postValue(
+                                    MainNavigationAction.OpenNote(noteIdBookId.bookId, noteIdBookId.noteId))
 
-                        "book_and_sparse_tree" ->
-                            UseCaseRunner.run(BookSparseTreeForNote(noteIdBookId.noteId))
+                            "book_and_sparse_tree" ->
+                                UseCaseRunner.run(BookSparseTreeForNote(noteIdBookId.noteId))
 
-                        "book_and_scroll" ->
-                            UseCaseRunner.run(BookScrollToNote(noteIdBookId.noteId))
+                            "book_and_scroll" ->
+                                UseCaseRunner.run(BookScrollToNote(noteIdBookId.noteId))
+                        }
                     }
                 }
             }

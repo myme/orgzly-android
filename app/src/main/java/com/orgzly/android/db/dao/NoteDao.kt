@@ -301,7 +301,7 @@ abstract class NoteDao : BaseDao<Note> {
     abstract fun updateNote(noteId: Long, bookId: Long, level: Int, lft: Long, rgt: Long, parentId: Long)
 
     @Query("""
-        SELECT notes.id as noteId, notes.book_id as bookId
+        SELECT notes.id as noteId, notes.book_id as bookId, notes.is_phantom as isPhantom
         FROM note_properties
         LEFT JOIN notes ON (notes.id = note_properties.note_id)
         WHERE LOWER(note_properties.name) = :name AND LOWER(note_properties.value) = :value AND notes.id IS NOT NULL
@@ -414,7 +414,7 @@ abstract class NoteDao : BaseDao<Note> {
         }
     }
 
-    data class NoteIdBookId(val noteId: Long, val bookId: Long)
+    data class NoteIdBookId(val noteId: Long, val bookId: Long, val isPhantom: Boolean)
 
     data class NoteForStateUpdate(
             val noteId: Long,

@@ -88,7 +88,10 @@ data class Note(
         val clockRangeId: Long? = null,
 
         @Embedded(prefix = "")
-        val position: NotePosition
+        val position: NotePosition,
+
+        @ColumnInfo(name = "is_phantom")
+        val isPhantom: Boolean = false,
 ) {
 
     fun hasContent(): Boolean {

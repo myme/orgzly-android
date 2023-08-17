@@ -113,7 +113,8 @@ abstract class OrgzlyDatabase : RoomDatabase() {
                             MIGRATION_152_153,
                             MIGRATION_153_154,
                             MIGRATION_154_155,
-                            MIGRATION_155_156
+                            MIGRATION_155_156,
+                            MIGRATION_156_157
                     )
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
@@ -562,6 +563,12 @@ abstract class OrgzlyDatabase : RoomDatabase() {
                 db.execSQL("CREATE TABLE IF NOT EXISTS `app_logs` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `timestamp` INTEGER NOT NULL, `name` TEXT NOT NULL, `message` TEXT NOT NULL)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_app_logs_timestamp` ON `app_logs` (`timestamp`)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_app_logs_name` ON `app_logs` (`name`)")
+            }
+        }
+
+        private val MIGRATION_156_157 = object : Migration(156, 157) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `notes` ADD COLUMN `is_phantom` INTEGER DEFAULT 0")
             }
         }
     }

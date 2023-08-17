@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 156,
-    "identityHash": "ea205a9572bf9c545164181692222ac5",
+    "identityHash": "a85e3aaacd415380b548bdbbb045b30c",
     "entities": [
       {
         "tableName": "books",
@@ -311,7 +311,7 @@
       },
       {
         "tableName": "notes",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `is_cut` INTEGER NOT NULL, `created_at` INTEGER, `title` TEXT NOT NULL, `tags` TEXT, `state` TEXT, `priority` TEXT, `content` TEXT, `content_line_count` INTEGER NOT NULL, `scheduled_range_id` INTEGER, `deadline_range_id` INTEGER, `closed_range_id` INTEGER, `clock_range_id` INTEGER, `book_id` INTEGER NOT NULL, `lft` INTEGER NOT NULL, `rgt` INTEGER NOT NULL, `level` INTEGER NOT NULL, `parent_id` INTEGER NOT NULL, `folded_under_id` INTEGER NOT NULL, `is_folded` INTEGER NOT NULL, `descendants_count` INTEGER NOT NULL, FOREIGN KEY(`book_id`) REFERENCES `books`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`scheduled_range_id`) REFERENCES `org_ranges`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`deadline_range_id`) REFERENCES `org_ranges`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`closed_range_id`) REFERENCES `org_ranges`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `is_cut` INTEGER NOT NULL, `created_at` INTEGER, `title` TEXT NOT NULL, `tags` TEXT, `state` TEXT, `priority` TEXT, `content` TEXT, `content_line_count` INTEGER NOT NULL, `scheduled_range_id` INTEGER, `deadline_range_id` INTEGER, `closed_range_id` INTEGER, `clock_range_id` INTEGER, `is_phantom` INTEGER NOT NULL, `book_id` INTEGER NOT NULL, `lft` INTEGER NOT NULL, `rgt` INTEGER NOT NULL, `level` INTEGER NOT NULL, `parent_id` INTEGER NOT NULL, `folded_under_id` INTEGER NOT NULL, `is_folded` INTEGER NOT NULL, `descendants_count` INTEGER NOT NULL, FOREIGN KEY(`book_id`) REFERENCES `books`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`scheduled_range_id`) REFERENCES `org_ranges`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`deadline_range_id`) REFERENCES `org_ranges`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`closed_range_id`) REFERENCES `org_ranges`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -390,6 +390,12 @@
             "columnName": "clock_range_id",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "isPhantom",
+            "columnName": "is_phantom",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "position.bookId",
@@ -1455,7 +1461,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ea205a9572bf9c545164181692222ac5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a85e3aaacd415380b548bdbbb045b30c')"
     ]
   }
 }
